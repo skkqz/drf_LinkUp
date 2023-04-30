@@ -5,8 +5,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from app_organizations.models import Organizations
 from .models import CustomUser
-from .serializers import UserSerializer, LoginSerializer, UserRegisterSerializer
+from .serializers import UserSerializer, LoginSerializer, UserRegisterSerializer, OrganizationsUserSerializers
 from .permissions import IsOwner
 
 
@@ -98,3 +99,12 @@ class UserLogoutAPIView(APIView):
     def get(self, request):
         logout(request)
         return Response(status=status.HTTP_200_OK)
+
+
+class OrgUsersAPIView(ListAPIView):
+
+    """
+    Представление списка организаций и пользователей связанных с ней.
+    """
+    queryset = Organizations.objects.all()
+    serializer_class = OrganizationsUserSerializers

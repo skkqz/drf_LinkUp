@@ -19,3 +19,15 @@ class OrganizationSerializer(serializers.ModelSerializer):
         instance.last_name = validated_data.get('description', instance.last_name)
         instance.save()
         return instance
+
+
+class CreateOrganizationSerializer(serializers.ModelSerializer):
+
+    """
+    Сериализатор для создания новой организации
+    """
+
+    class Meta:
+
+        model = Organizations
+        fields = ('name', 'description', )

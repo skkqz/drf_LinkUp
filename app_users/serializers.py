@@ -1,7 +1,10 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from app_organizations.serializers import OrganizationSerializer
+from app_organizations.models import Organizations
+
 from .models import CustomUser
+from .services import resize_image
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -18,13 +21,19 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return CustomUser.objects.create_user(**validated_data)
 
-    # def update(self, instance, validated_data):
-    #     instance.first_name = validated_data.get('first_name', instance.first_name)
-    #     instance.last_name = validated_data.get('last_name', instance.last_name)
-    #     instance.telephone_number = validated_data.get('telephone_number', instance.telephone_number)
-    #     instance.avatar = validated_data.get('avatar', instance.avatar)
-    #     instance.save()
-    #     return instance
+    def update(self, instance, validated_data):
+
+        instance.email = validated_data.get('email', instance.email)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.telephone_number = validated_data.get('telephone_number', instance.telephone_number)
+        avatar = validated_data.get('avatar')
+        if avatar:
+
+            instance.avatar = resize_image(avatar)
+        instance.save()
+
+        return instance
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -77,11 +86,26 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError('Для входа в систему требуется пароль.')
 
         user = authenticate(email=email, password=password)
-        # print(CustomUser.objects.filter(email=email))
-        print(user)
+
         if user is None:
             raise serializers.ValidationError('Пользователь с таким email и паролем не найден.')
 
         data['user'] = user
 
         return data
+
+
+class OrganizationsUserSerializers(serializers.ModelSerializer):
+
+    users = UserSerializer
+
+    class Meta:
+
+        model = Organizations
+        fields = ('name', 'description', 'users', )
+
+
+# def to_representation(self, instance):
+#     ret = super().to_representation(instance)
+#     ret.pop('organizations', None)
+#     return ret

@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import OrganizationsAPIView
+from .views import OrganizationsAPIView, CreateOrganizationSerializerAPIView
 
 urlpatterns = [
-    path('organizations/', OrganizationsAPIView.as_view(), name='organizations'),
-
+    path('', OrganizationsAPIView.as_view(), name='organizations'),
+    path('create', CreateOrganizationSerializerAPIView.as_view(), name='organizations_create'),
 ]

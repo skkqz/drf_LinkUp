@@ -1,6 +1,8 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
+
 from .models import Organizations
-from .serializers import OrganizationSerializer
+from .serializers import OrganizationSerializer, CreateOrganizationSerializer
 
 
 class OrganizationsAPIView(ListAPIView):
@@ -11,3 +13,13 @@ class OrganizationsAPIView(ListAPIView):
 
     queryset = Organizations.objects.all()
     serializer_class = OrganizationSerializer
+
+
+class CreateOrganizationSerializerAPIView(CreateAPIView):
+
+    """
+    Представление для создания организации.
+    """
+
+    serializer_class = CreateOrganizationSerializer
+    permission_classes = [IsAuthenticated]

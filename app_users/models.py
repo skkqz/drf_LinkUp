@@ -19,7 +19,7 @@ class CustomUser(AbstractUser):
                                  message='Введите пожалуйста свой номер телефона в формате: +79999999999')
     telephone_number = models.CharField(validators=[phone_regex], null=True, blank=True, max_length=12, verbose_name=
                                         'Номер телефона')
-    avatar = models.ImageField(upload_to='media/avatars', blank=True, verbose_name='Аватар')
+    avatar = models.ImageField(upload_to='avatars/', blank=True, verbose_name='Аватар')
     organizations = models.ManyToManyField(Organizations, blank=True, related_name='users')
 
     USERNAME_FIELD = 'email'
