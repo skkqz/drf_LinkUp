@@ -29,7 +29,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.telephone_number = validated_data.get('telephone_number', instance.telephone_number)
         avatar = validated_data.get('avatar')
         if avatar:
-
             instance.avatar = resize_image(avatar)
         instance.save()
 
@@ -47,12 +46,15 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = CustomUser
-        fields = ('email', 'password', 'password2', 'first_name', 'last_name', 'telephone_number', 'avatar')
+        fields = ('email', 'password', 'password2', 'first_name', 'last_name', 'telephone_number')
 
     def save(self, *args, **kwargs):
 
         user = CustomUser(
-            email=self.validated_data['email']
+            email=self.validated_data['email'],
+            first_name=self.validated_data.get('first_name', ''),
+            last_name=self.validated_data.get('last_name', ''),
+            telephone_number=self.validated_data.get('telephone_number', '')
         )
 
         password = self.validated_data['password']
