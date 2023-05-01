@@ -82,47 +82,6 @@ Vary: Accept
 }
 ~~~
 
-### Вывод списка всех организаций
-
-#### Request
-~~~
-GET /api/organizations/
-
-http://localhost:8000/api/organizations/
-~~~
-
-#### Response
-~~~
-HTTP 200 OK
-Allow: GET, HEAD, OPTIONS
-Content-Type: application/json
-Vary: Accept
-
-{
-  {
-      "id": 1,
-      "name": "ГазПром",
-      "description": "Добыча нефтепродуктов"
-  },
-  {
-      "id": 2,
-      "name": "Лукойл",
-      "description": "Добыча нечфти"
-  },
-  {
-      "id": 3,
-      "name": "ТКМ",
-      "description": "продажа кухонных фасадов"
-  },
-  {
-      "id": 4,
-      "name": "Автодок",
-      "description": "Продажа запчастей для автомобилей"
-  }
-}
-
-~~~
-
 ### Регистрация пользователя
 
 #### Request
@@ -150,7 +109,7 @@ Vary: Accept
 }
 ~~~
 
-### Аутентификация  пользователя
+### Аутентификация пользователя
 
 #### Request
 ~~~
@@ -254,6 +213,48 @@ Vary: Accept
 }
 ~~~
 
+### Вывод списка всех организаций и пользователей связанных с ней
+
+#### Request
+~~~
+GET /api/organizations/
+
+http://localhost:8000/api/organizations/
+~~~
+
+#### Response
+~~~
+HTTP 200 OK
+Allow: GET, HEAD, OPTIONS
+Content-Type: application/json
+Vary: Accept
+
+{
+  "id": 1,
+  "name": "ГазПром",
+  "description": "Добыча нефтепродуктов",
+  "users": [
+      {
+          "id": 8,
+          "email": "fafa@fafa.com",
+          "first_name": Федя,
+          "last_name": Гришкин,
+          "telephone_number": +78521456532,
+          "avatar": null
+      },
+      {
+          "id": 4,
+          "email": "mo@mo.com",
+          "first_name": "Дима",
+          "last_name": "Фокин",
+          "telephone_number": "+78521459658",
+          "avatar": "http://localhost:8000/media/avatars/preview.png"
+      }
+  ]
+}
+
+~~~
+
 ### Добавление новой организации 
 
 #### Request
@@ -274,49 +275,6 @@ Vary: Accept
     "name": "",
     "description": ""
 }
-~~~
-
-### Вывод списка всех организаций, со списком ID пользователей, которые связаны с каждой из них. 
-
-#### Request
-~~~
-GET /api/users/organizations-users/
-
-http://localhost:8000/api/users/organizations-users/
-~~~
-
-#### Response
-~~~
-HTTP 200 OK
-Allow: GET, HEAD, OPTIONS
-Content-Type: application/json
-Vary: Accept
-
-{
-  {
-      "name": "ГазПром",
-      "description": "Добыча нефтепродуктов",
-      "users": [
-          8,
-          4
-      ]
-  },
-  {
-      "name": "Лукойл",
-      "description": "Добыча нечфти",
-      "users": [
-          8,
-          6
-      ]
-  },
-  {
-      "name": "ТКМ",
-      "description": "продажа кухонных фасадов",
-      "users": [
-          8
-      ]
-  }
-}    
 ~~~
 
 ### Участники проекта
