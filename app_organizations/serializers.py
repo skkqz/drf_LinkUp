@@ -1,5 +1,16 @@
 from rest_framework import serializers
 from .models import Organizations
+from app_users.models import CustomUser
+
+
+class UsersSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор пользователя для отображения в организациях
+    """
+
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'email', 'first_name', 'last_name', 'telephone_number', 'avatar', )
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -7,9 +18,11 @@ class OrganizationSerializer(serializers.ModelSerializer):
     Сериализатор организации.
     """
 
+    users = UsersSerializer(many=True)
+
     class Meta:
         model = Organizations
-        fields = ('id', 'name', 'description', )
+        fields = ('id', 'name', 'description', 'users', )
 
     def create(self, validated_data):
         return Organizations.objects.create(**validated_data)
