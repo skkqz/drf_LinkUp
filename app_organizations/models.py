@@ -10,8 +10,8 @@ class Organization(models.Model):
     description = models.TextField(max_length=500, verbose_name='Описание')
 
     class Meta:
-        verbose_name = 'Организации'
-        verbose_name_plural = 'Организация'
+        verbose_name = 'Организация'
+        verbose_name_plural = 'Организации'
 
     def __str__(self):
         return self.name
